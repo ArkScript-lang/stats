@@ -15,14 +15,18 @@ jobs:
           python-version: '3.13'
       - run: pip install --break-system-packages requests python-dotenv
       - run: python3 user-count/arkscript-usage.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.WEB_API_TOKEN }}
       - name: Commit and push
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.STATS_GITHUB_TOKEN }}
         run: |
           git config --unset-all http.https://github.com/.extraheader
           git config user.name "User count bot"
           git config user.email ""
-          git config remote.origin.url 'https://${{ secrets.GITHUB_TOKEN }}@github.com/ArkScript-lang/stats.git'
-          git add users.json
+          git config remote.origin.url 'https://${{ secrets.STATS_GITHUB_TOKEN }}@github.com/ArkScript-lang/stats.git'
+          git add -f users.json
           git commit -m "Update stats"
           git push -u origin master
 
