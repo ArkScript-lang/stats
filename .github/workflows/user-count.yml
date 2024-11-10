@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: pip install --break-system-packages requests
+      - run: pip install --break-system-packages requests python-dotenv
       - run: python3 user-count/arkscript-usage.py
       - name: Commit and push
         shell: bash
