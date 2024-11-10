@@ -1,0 +1,26 @@
+name: Run user-count script daily
+
+on:
+  schedule:
+    - cron: "5 4 * * *"
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: action/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: python3 user-count/arkscript-usage.py
+      - name: Commit and push
+        shell: bash
+        run: |
+          git config --unset-all http.https://github.com/.extraheader
+          git config user.name "User count bot"
+          git config user.email ""
+          git config remote.origin.url 'https://${{ secrets.GITHUB_TOKEN }}@github.com/ArkScript-lang/stats.git'
+          git add users.json
+          git commit -m "Update stats"
+          git push -u origin master
+
