@@ -19,7 +19,7 @@ if f'"≥ {current_year}"' not in content or True:
         for y in range(current_year, start_year - 1, -1):
             f.write(f" 'codeage.csv' using 1:{y - start_year + 2} axes x1y2 with filledcurves above title")
             f.write(f' "≥ {y}"')
-            if y != 2019:
+            if y != start_year:
                 f.write(", \\\n")
             else:
                 f.write("\n")
