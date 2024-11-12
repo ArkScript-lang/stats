@@ -38,7 +38,7 @@ unset ytics
 # set the format of the dates on the x axis
 set format x "%Y"
 set datafile separator ";"
-# TODO: make the years dynamic
+# START PLOT
 plot \
  'codeage.csv' using 1:7 axes x1y2 with filledcurves above title "≥ 2024", \
  'codeage.csv' using 1:6 axes x1y2 with filledcurves above title "≥ 2023", \
@@ -46,3 +46,4 @@ plot \
  'codeage.csv' using 1:4 axes x1y2 with filledcurves above title "≥ 2021", \
  'codeage.csv' using 1:3 axes x1y2 with filledcurves above title "≥ 2020", \
  'codeage.csv' using 1:2 axes x1y2 with filledcurves above title "≥ 2019"
+# END PLOT

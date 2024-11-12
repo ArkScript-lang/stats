@@ -10,11 +10,11 @@
 This script is run once every week by the CI and generates [codeage.svg](https://raw.githubusercontent.com/ArkScript-lang/stats/refs/heads/master/year-annotate/codeage.svg).
 
 1. Works with any kind of tags, sort them by `authordate`
-2. `codeage.plot` has to be updated every year to add a new line to the `plot` command
+2. `codeage.plot` is updated by `gnuplot.py` to add every new year that's not in it
 
 ```shell
 cd Ark/ && ../stats/year-annotate/year-annotate.py -d | tee ../stats/year-annotate/codeage.csv
-cd ../stats/year-annotate/ && gnuplot -p codeage.plot > codeage.svg
+cd ../stats/year-annotate/ && python3 gnuplot.py
 ```
 
 ## user-count

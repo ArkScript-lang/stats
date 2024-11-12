@@ -24,7 +24,7 @@ jobs:
       - run: |
           cd arkscript
           python3 ../year-annotate/year-annotate.py -d | tee ../year-annotate/codeage.csv
-          cd ../year-annotate && gnuplot -p codeage.plot > codeage.svg
+          cd ../year-annotate && python3 gnuplot.py
         env:
           GITHUB_TOKEN: ${{ secrets.WEB_API_TOKEN }}
       - name: Commit and push

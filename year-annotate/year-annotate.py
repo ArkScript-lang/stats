@@ -128,10 +128,7 @@ if __name__ == "__main__":
             for x in output.strip().splitlines()
             if x.startswith('v') and
                 '3.2.0' not in x
-            #   '-' not in x and
-            #   '_' not in x
            ] + ['HEAD']
-    # tags.sort(key=Version)
     if opt.debug:
         print(tags, file=sys.stderr)
 
