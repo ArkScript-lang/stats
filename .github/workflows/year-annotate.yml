@@ -1,0 +1,42 @@
+name: Run year-annotate weekly
+
+on:
+  schedule:
+    - cron: "10 4 1,8,15,22,29 * *"
+  workflow_dispatch:
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: ArkScript-lang/Ark
+          path: arkscript
+          ref: 'dev'
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: pip install --break-system-packages tqdm
+      - run: sudo apt install -yq gnuplot
+      - run: |
+          cd arkscript
+          python3 ../year-annotate/year-annotate.py -d | tee ../year-annotate/codeage.csv
+          cd ../year-annotate && gnuplot -p codeage.plot > codeage.svg
+        env:
+          GITHUB_TOKEN: ${{ secrets.WEB_API_TOKEN }}
+      - name: Commit and push
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.STATS_GITHUB_TOKEN }}
+        run: |
+          git config --unset-all http.https://github.com/.extraheader
+          git config user.name "Stats bot"
+          git config user.email ""
+          git config remote.origin.url 'https://${{ secrets.STATS_GITHUB_TOKEN }}@github.com/ArkScript-lang/stats.git'
+          git add -f *.svg
+          git commit -m "Update stats"
+          git push -u origin master
+

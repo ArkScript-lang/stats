@@ -19,7 +19,6 @@ from subprocess import *
 from itertools import repeat
 from multiprocessing import Pool, cpu_count, set_start_method
 import tqdm
-from packaging.version import Version
 from pathlib import Path
 
 # Globals (FIXME: turn this into a proper object)
