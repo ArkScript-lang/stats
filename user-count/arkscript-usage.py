@@ -1,14 +1,13 @@
 import requests
 import dotenv
 import os
-import json
 import datetime
 import time
 
 
 dotenv.load_dotenv()
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-OUTPUT_FILE = "users.json"
+OUTPUT_FILE = "users.csv"
 
 search = "extension:ark let OR MUT NOT repo:ark-lang/ark NOT is:fork"
 url_encoded = search.replace(":", "%3A").replace("*", "%2A").replace("/", "%2F").replace(" ", "+")
@@ -68,14 +67,19 @@ def count(data):
 def cache_results(pages):
     if os.path.exists(OUTPUT_FILE):
         with open(OUTPUT_FILE) as f:
-            data = json.loads(f.read())
+            data = f.read().split("\n")
     else:
-        data = {}
+        data = ["date, users, repositories"]
 
-    data[datetime.datetime.now().strftime("%Y-%m-%d")] = count(pages)
+    res = count(pages)
+    data.append(", ".join(str(e) for e in [
+        datetime.datetime.now().strftime("%Y-%m-%d"),
+        res["users"],
+        res["repositories"]
+    ]))
 
     with open(OUTPUT_FILE, 'w') as f:
-        f.write(json.dumps(data))
+        f.write("\n".join(data))
 
 
 if __name__ == '__main__':

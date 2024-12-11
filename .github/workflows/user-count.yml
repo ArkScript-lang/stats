@@ -26,7 +26,7 @@ jobs:
           git config user.name "User count bot"
           git config user.email ""
           git config remote.origin.url 'https://${{ secrets.STATS_GITHUB_TOKEN }}@github.com/ArkScript-lang/stats.git'
-          git add -f users.json
+          git add -f users.csv
           git commit -m "Update stats"
           git push -u origin master
 
