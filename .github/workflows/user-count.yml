@@ -2,7 +2,7 @@ name: Run user-count script daily
 
 on:
   schedule:
-    - cron: "5 4 * * *"
+    - cron: "5 3 1,8,15,22,29 * *"
   workflow_dispatch:
 
 jobs:
