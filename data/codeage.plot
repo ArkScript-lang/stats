@@ -40,6 +40,7 @@ set format x "%Y"
 set datafile separator ";"
 # START PLOT
 plot \
+ 'codeage.csv' using 1:8 axes x1y2 with filledcurves above title "≥ 2025", \
  'codeage.csv' using 1:7 axes x1y2 with filledcurves above title "≥ 2024", \
  'codeage.csv' using 1:6 axes x1y2 with filledcurves above title "≥ 2023", \
  'codeage.csv' using 1:5 axes x1y2 with filledcurves above title "≥ 2022", \
