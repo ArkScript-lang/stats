@@ -36,7 +36,7 @@ jobs:
           git config user.name "Stats bot"
           git config user.email ""
           git config remote.origin.url 'https://${{ secrets.STATS_GITHUB_TOKEN }}@github.com/ArkScript-lang/stats.git'
-          git add -f data/*.svg data/codeage.csv
+          git add -f data/*.*
           git commit -m "Update stats"
           git push -u origin master
 
