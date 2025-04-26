@@ -7,7 +7,7 @@ import time
 
 dotenv.load_dotenv()
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-OUTPUT_FILE = "users.csv"
+OUTPUT_FILE = "data/users.csv"
 
 search = "extension:ark let OR MUT NOT repo:ark-lang/ark NOT is:fork"
 url_encoded = search.replace(":", "%3A").replace("*", "%2A").replace("/", "%2F").replace(" ", "+")
@@ -67,7 +67,7 @@ def count(data):
 def cache_results(pages):
     if os.path.exists(OUTPUT_FILE):
         with open(OUTPUT_FILE) as f:
-            data = f.read().split("\n")
+            data = [line for line in f.read().split("\n") if line]
     else:
         data = ["date, users, repositories"]
 
