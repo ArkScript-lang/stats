@@ -9,8 +9,10 @@ dotenv.load_dotenv()
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 OUTPUT_FILE = "data/users.csv"
 
-search = "extension:ark let OR MUT NOT repo:ark-lang/ark NOT is:fork"
+search = 'extension:ark "let" OR "mut" NOT repo:ark-lang/ark NOT is:fork'
 url_encoded = search.replace(":", "%3A").replace("*", "%2A").replace("/", "%2F").replace(" ", "+")
+url_encoded = url_encoded.replace('"', "%22").replace("(", "%28").replace(")", "%29")
+print(url_encoded)
 url = f"https://api.github.com/search/code?q={url_encoded}"
 
 
@@ -24,6 +26,9 @@ def query(url: str):
 def paginate(url: str):
     page, headers = query(url)
     data = [page]
+
+    if "items" not in page:
+        print(page)
 
     if 'rel="next"' in headers.get("Link", ""):
         urls = headers["Link"].split(",")
@@ -58,6 +63,9 @@ def count(data):
             users.add(repo['owner']['login'])
             repositories.add(repo['full_name'])
 
+    print(users)
+    print(repositories)
+
     return {
         'users': len(users),
         'repositories': len(repositories)
@@ -68,7 +76,7 @@ def cache_results(pages):
     if os.path.exists(OUTPUT_FILE):
         with open(OUTPUT_FILE) as f:
             data = [line for line in f.read().split("\n") if line]
-            last = data[-1]
+            last = data[-1].split(", ")
     else:
         data = ["date, users, repositories"]
         last = []
@@ -79,7 +87,7 @@ def cache_results(pages):
     # This will remove duplicates.
     if last != []:
         _, users, repos = last
-        if users == res["users"] and repos == res["repositories"]:
+        if users == int(res["users"]) and repos == int(res["repositories"]):
             data.pop(-1)
 
     data.append(", ".join(str(e) for e in [
