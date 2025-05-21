@@ -87,7 +87,7 @@ def cache_results(pages):
     # This will remove duplicates.
     if last != []:
         _, users, repos = last
-        if users == int(res["users"]) and repos == int(res["repositories"]):
+        if int(users) == res["users"] and int(repos) == res["repositories"]:
             data.pop(-1)
 
     data.append(", ".join(str(e) for e in [
