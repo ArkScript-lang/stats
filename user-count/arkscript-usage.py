@@ -68,10 +68,20 @@ def cache_results(pages):
     if os.path.exists(OUTPUT_FILE):
         with open(OUTPUT_FILE) as f:
             data = [line for line in f.read().split("\n") if line]
+            last = data[-1]
     else:
         data = ["date, users, repositories"]
+        last = []
 
     res = count(pages)
+    # If we have a previous record and it is the same as what we just computed,
+    # remove it. It will be replaced by our new record with the current date.
+    # This will remove duplicates.
+    if last != []:
+        _, users, repos = last
+        if users == res["users"] and repos == res["repositories"]:
+            data.pop(-1)
+
     data.append(", ".join(str(e) for e in [
         datetime.datetime.now().strftime("%Y-%m-%d"),
         res["users"],
