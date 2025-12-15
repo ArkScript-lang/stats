@@ -8,6 +8,11 @@ if not os.path.exists("data") or not os.path.isdir("data"):
     print("gnuplot.py must be run in the root directory of the 'stats' project")
     sys.exit(1)
 
+# sort the input data, in case dates are all over the place
+with open("data/codeage.csv") as source:
+    lines = sorted([line for line in source.readlines() if line])
+    with open("data/codeage.csv", "w") as output:
+        output.write("\n".join(lines))
 
 with open("data/codeage.plot") as f:
     content = f.read()
