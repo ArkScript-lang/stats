@@ -21,7 +21,7 @@ with open("data/codeage.plot") as f:
 current_year = datetime.datetime.now().year
 start_year = 2019
 
-print(f"Current year: ${current_year}")
+print(f"Current year: {current_year}")
 
 if f'"≥ {current_year}"' not in content or True:
     start = content[:content.index("# START PLOT") + 13]

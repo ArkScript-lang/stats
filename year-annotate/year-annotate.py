@@ -120,7 +120,7 @@ if __name__ == "__main__":
     set_start_method('spawn')
 
     # Get the list of tags we're going to operate against
-    output = run(["git", "tag", "--sort=authordate"])
+    output = run(["git", "tag"])
     # ignoring 3.2.0 tag that seems to have been tagged out of nowhere when calling
     # git tag --sort=authordate, it is the first one (even though git show v3.2.0
     # says it was on a commit in 2022)
