@@ -46,9 +46,9 @@ def paginate(url: str):
                 print(f"Rate limited. Sleeping for {sleep_for:.3f} seconds")
                 time.sleep(sleep_for)
         else:
-            # sleep for 6 seconds to avoid hitting the rate limit too fast,
+            # sleep for 8 seconds to avoid hitting the rate limit too fast,
             # because we can only make 10 requests per minute to the API
-            time.sleep(6)
+            time.sleep(8)
         data += paginate(next_url)
 
     return data
