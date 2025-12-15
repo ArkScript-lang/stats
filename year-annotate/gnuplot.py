@@ -10,7 +10,7 @@ if not os.path.exists("data") or not os.path.isdir("data"):
 
 # sort the input data, in case dates are all over the place
 with open("data/codeage.csv") as source:
-    lines = sorted([line for line in source.readlines() if line])
+    lines = sorted([line.strip() for line in source.readlines() if line.strip()])
     with open("data/codeage.csv", "w") as output:
         output.write("\n".join(lines))
 
