@@ -24,6 +24,7 @@ from pathlib import Path
 # Globals (FIXME: turn this into a proper object)
 parser = optparse.OptionParser()
 parser.add_option("-d", "--debug", help="Report additional debugging while processing USNs", action='store_true')
+parser.add_option("-i", "--ignore-tests", help="Ignore test files", action="store_true")
 parser.add_option("-C", "--csv", help="Report as CSV file", action='store_true')
 (opt, args) = parser.parse_args()
 
@@ -79,7 +80,7 @@ def frombefore(before, epochs):
                 count += epochs[file][epoch]
     return count
 
-def process(tag, years):
+def process(tag, years, ignore_tests):
     cache = load_cache(tag)
 
     date = sha_to_date(tag)
@@ -90,6 +91,8 @@ def process(tag, years):
         # Do we want to exclude Documentation, samples, or tools subdirectories?
         # Or MAINTAINERS, dot files, etc?
         files = run(['git', 'ls-tree', '-r', '--name-only', tag]).splitlines()
+        if ignore_tests:
+            files = [f for f in files if "tests/" not in f]
         count = len(files)
 
         with Pool(cpu_count()) as p:
@@ -131,6 +134,8 @@ if __name__ == "__main__":
            ] + ['HEAD']
     if opt.debug:
         print(tags, file=sys.stderr)
+    if opt.ignore_tests:
+        print("Ignore tests", file=sys.stderr)
 
     # Find the year bounds of our tags
     year_first = sha_to_date(tags[0]).year + 1
@@ -143,5 +148,5 @@ if __name__ == "__main__":
 
     # Walk tags
     for tag in tags:
-        process(tag, years)
+        process(tag, years, opt.ignore_tests)
 
