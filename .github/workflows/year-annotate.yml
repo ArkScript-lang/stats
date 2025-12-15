@@ -32,6 +32,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.STATS_GITHUB_TOKEN }}
         run: |
+          # if no change, quit early
+          git status -sb | grep "M" || exit 0
+          # otherwise, proceed and commit
           git config --unset-all http.https://github.com/.extraheader
           git config user.name "Stats bot"
           git config user.email ""
