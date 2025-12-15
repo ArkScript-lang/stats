@@ -84,12 +84,12 @@ def cache_results(pages):
 
     res = count(pages)
     # If we have a previous record and it is the same as what we just computed,
-    # remove it. It will be replaced by our new record with the current date.
+    # keep it, and do not insert the newly computed one.
     # This will remove duplicates.
     if last != []:
         _, users, repos = last
         if int(users) == res["users"] and int(repos) == res["repositories"]:
-            data.pop(-1)
+            return
 
     data.append(", ".join(str(e) for e in [
         datetime.datetime.now().strftime("%Y-%m-%d"),
