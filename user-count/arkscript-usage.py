@@ -47,7 +47,7 @@ def paginate(url: str):
                 time.sleep(sleep_for)
         else:
             # sleep for one second to avoid hitting the rate limit too fast
-            time.sleep(1)
+            time.sleep(5)
         data += paginate(next_url)
 
     return data
