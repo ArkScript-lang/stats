@@ -9,8 +9,8 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           repository: ArkScript-lang/Ark
           path: arkscript
@@ -39,7 +39,7 @@ jobs:
           git config user.name "Stats bot"
           git config user.email ""
           git config remote.origin.url 'https://${{ secrets.STATS_GITHUB_TOKEN }}@github.com/ArkScript-lang/stats.git'
-          git add -f data/*.*
+          git add -f data/
           git commit -m "Update stats"
           git push -u origin master
 
